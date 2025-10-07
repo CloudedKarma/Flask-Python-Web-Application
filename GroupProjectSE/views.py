@@ -11,8 +11,17 @@ from GroupProjectSE import app
 def home():
     """Renders the home page."""
     return render_template(
+        'MainPage.html',
+        title='Project Info',
+        year=datetime.now().year,
+    )
+
+@app.route('/info')
+def info():
+    """Renders the flask page."""
+    return render_template(
         'index.html',
-        title='Home Page',
+        title='Flask Info',
         year=datetime.now().year,
     )
 
@@ -23,7 +32,7 @@ def contact():
         'contact.html',
         title='Contact',
         year=datetime.now().year,
-        message='Your contact page.'
+        message='Name and Emails'
     )
 
 @app.route('/about')
@@ -33,5 +42,5 @@ def about():
         'about.html',
         title='About',
         year=datetime.now().year,
-        message='Your application description page.'
+        message='CNN Algorithm for Plant Disease Detection'
     )

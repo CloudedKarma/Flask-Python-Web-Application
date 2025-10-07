@@ -41,6 +41,7 @@
     <Folder Include="GroupProjectSE\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GroupProjectSE\templates\MainPage.html" />
     <Content Include="requirements.txt" />
     <Content Include="GroupProjectSE\static\content\bootstrap.css" />
     <Content Include="GroupProjectSE\static\content\bootstrap.min.css" />

@@ -44,3 +44,12 @@ def about():
         year=datetime.now().year,
         message='CNN Algorithm for Plant Disease Detection'
     )
+
+@app.route('/plant_analysis', methods=['GET', 'POST'])
+def analyze():
+    return render_template(
+    'plant_analysis.html',
+    title = 'Plant Analysis',
+    year=datetime.now().year,
+    message='Plant Disease Identification'
+    )

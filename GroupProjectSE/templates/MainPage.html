@@ -1,31 +1,21 @@
 {% extends "layout.html" %}
-
 {% block content %}
-
-<div class="jumbotron">
-    <h1>Dataset</h1>
-    <p class="lead">Kaggle Dataset Named PlantVillage Dataset</p>
-    <p><a href="https://www.kaggle.com/datasets/emmarex/plantdisease" class="btn btn-primary btn-large">Kaggle &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Github Link
-        </p>
-        <p><a class="btn btn-default" href="https://github.com/OGMrCrispy/Flask-Python-Web-Application">Github &raquo;</a></p>
+<h1>Dataset Overview</h1>
+<p class="lead">We are using the <strong>PlantVillage Dataset</strong> from Kaggle for our project.</p>
+<a href="https://www.kaggle.com/datasets/emmarex/plantdisease" class="btn" target="_blank">View Dataset on Kaggle</a>
+<div style="margin-top:40px;">
+    <h2>Resources</h2>
+    <div>
+        <p><strong>GitHub Repository:</strong> Access our project code and documentation.</p>
+        <a href="https://github.com/OGMrCrispy/Flask-Python-Web-Application" class="btn" target="_blank">Go to GitHub</a>
     </div>
-    <div class="col-md-4">
-        <h2>Future Buttons</h2>
-        <p>Button for future purpose such as using dataset or uploading pictures</p>
-        <p><a class="btn btn-default">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Future Buttons</h2>
-        <p>Button for future purpose such as printing report or developing report</p>
-        <p><a class="btn btn-default">Learn more &raquo;</a></p>
+    <div style="margin-top:30px;">
+        <h2>Future Features</h2>
+        <ul>
+            <li>Upload and analyze images from the dataset.</li>
+            <li>Generate detailed plant health reports.</li>
+            <li>Integrate predictive model visualization.</li>
+        </ul>
     </div>
 </div>
-
 {% endblock %}

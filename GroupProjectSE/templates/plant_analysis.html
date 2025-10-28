@@ -2,20 +2,19 @@
 {% block content %}
 
 <h1>Plant Analysis Program</h1>
-<p>Welcome to the Plant Analysis section of our Flask web app. This page will serve as the foundation for developing and testing our image-based plant health analysis system.</p>
+<p>The Plant Analysis Page will be the basis of all of our plant identifcation and classification. It will also be the page that needs the most attention to detail and development..</p>
 
 <div style="margin-top:40px;">
     <h2>Planned Features</h2>
     <ul>
         <li>Upload a plant leaf image for classification.</li>
         <li>Display disease predictions using a trained ML model.</li>
-        <li>Provide health recommendations and visual reports.</li>
+        <li>Provide visual reports and statistics.</li>
     </ul>
 </div>
 
 <div style="margin-top:40px;">
-    <h2>Prototype Area</h2>
-    <p>Use this section to build and test new features. For now, a placeholder upload form is included below.</p>
+    <h2>Plant Classification and Disease Identification</h2>
 
     <form method="POST" enctype="multipart/form-data" style="margin-top:20px;">
         <label for="file">Upload Plant Image:</label><br>
@@ -26,7 +25,8 @@
 
 <div style="margin-top:40px;">
     <h3>Output Section</h3>
-    <p>Once the analysis logic is implemented, the results (e.g., disease type, confidence score, suggestions) will be displayed here.</p>
+    <p>Generate Report</p>
+    <button type="submit" class="btn">Generate</button>
 </div>
 
 {% endblock %}

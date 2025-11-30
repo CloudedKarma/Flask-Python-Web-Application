@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Plant Analysis Report</h1>
+
+<hr style="margin:20px 0;">
+
+<h2>Results Summary</h2>
+<p>{{ result }}</p>
+
+{% if file_path %}
+<h2>Uploaded Image</h2>
+<img src="{{ file_path }}" alt="Analyzed Image"
+     style="max-width:400px; border:1px solid #ccc; padding:10px;">
+{% endif %}
+
+<hr style="margin:20px 0;">
+
+<button onclick="window.print()" class="btn">Print Report</button>
+
+{% endblock %}

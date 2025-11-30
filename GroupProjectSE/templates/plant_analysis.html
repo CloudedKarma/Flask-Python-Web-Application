@@ -2,32 +2,61 @@
 {% block content %}
 
 <h1>Plant Analysis Program</h1>
-<p>The Plant Analysis Page will be the basis of all of our plant identifcation and classification. It will also be the page that needs the most attention to detail and development..</p>
+<p>
+    Upload a plant leaf image to classify the plants health and detect potential diseases.
+    This tool will analyze the image and provide a prediction, description, and treatment steps.
+</p>
 
-<div style="margin-top:40px;">
-    <h2>Planned Features</h2>
+<hr style="margin: 20px 0;">
+
+<h2>Plant Classification and Disease Identification</h2>
+
+<form method="POST" enctype="multipart/form-data" style="margin-top:20px;">
+    <label for="file">Upload Plant Image:</label><br>
+    <input type="file" id="file" name="file" accept="image/*" style="margin-top:10px;"><br><br>
+    <button type="submit" class="btn">Analyze</button>
+</form>
+
+<hr style="margin: 30px 0;">
+
+<h3>Output Section</h3>
+
+{% if result %}
+<div style="margin-top: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 6px;">
+
+    <h3 style="margin-top: 0;">Prediction Results</h3>
+
+    <p><strong>Disease:</strong> {{ result.class }}</p>
+    <p><strong>Confidence:</strong> {{ result.confidence }}%</p>
+
+    <p>
+        <strong>Description:</strong><br>
+        {{ result.description }}
+    </p>
+
+    <h4>Treatment Steps:</h4>
     <ul>
-        <li>Upload a plant leaf image for classification.</li>
-        <li>Display disease predictions using a trained ML model.</li>
-        <li>Provide visual reports and statistics.</li>
+        {% for step in result.steps %}
+        <li>{{ step }}</li>
+        {% endfor %}
     </ul>
-</div>
 
-<div style="margin-top:40px;">
-    <h2>Plant Classification and Disease Identification</h2>
+    {% if file_url %}
+    <h4>Uploaded Image:</h4>
+    <img src="{{ file_url }}" alt="Uploaded Plant Image"
+         style="max-width: 350px; border: 1px solid #999; padding: 5px;">
+    {% endif %}
 
-    <form method="POST" enctype="multipart/form-data" style="margin-top:20px;">
-        <label for="file">Upload Plant Image:</label><br>
-        <input type="file" id="file" name="file" accept="image/*" style="margin-top:10px;"><br><br>
-        <button type="submit" class="btn">Analyze</button>
+    <form method="POST" action="/generate_report" style="margin-top:20px;">
+        <input type="hidden" name="file_path" value="{{ file_url }}">
+        <input type="hidden" name="result" value="{{ result.class }} ({{ result.confidence }}%) - {{ result.description }}">
+        <button type="submit" class="btn">Generate Report</button>
     </form>
+
 </div>
 
-<div style="margin-top:40px;">
-    <h3>Output Section</h3>
-    <p>Generate Report</p>
-    <button type="submit" class="btn">Generate</button>
-</div>
+{% else %}
+<p>No analysis performed yet. Upload an image to begin.</p>
+{% endif %}
 
 {% endblock %}
-

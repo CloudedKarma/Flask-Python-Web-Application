@@ -1,0 +1,14 @@
+{
+  "Tomato Early Blight": {
+    "description": "Early blight causes concentric brown spots on leaves. It spreads in humid conditions.",
+    "steps": [ "Remove infected leaves", "Apply fungicide", "Avoid overhead watering" ]
+  },
+  "Tomato Late Blight": {
+    "description": "Late blight causes dark, water-soaked spots on leaves and stems.",
+    "steps": [ "Remove infected plants", "Improve ventilation", "Use resistant varieties" ]
+  },
+  "Healthy": {
+    "description": "No disease detected.",
+    "steps": [ "Continue normal plant care" ]
+  }
+}

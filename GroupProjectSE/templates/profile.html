@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Profile</h1>
+
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Role:</strong> {{ user.role }}</p>
+
+<a href="/logout" class="btn">Logout</a>
+
+{% endblock %}

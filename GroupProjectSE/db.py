@@ -12,19 +12,32 @@ def initialize_db():
     conn = get_db()
     cur = conn.cursor()
 
+    # USERS TABLE (accounts)
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            role TEXT NOT NULL
+        )
+    ''')
+
+    # HISTORY TABLE (with user_id)
     cur.execute('''
         CREATE TABLE IF NOT EXISTS history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
             image_path TEXT NOT NULL,
             predicted_class TEXT NOT NULL,
             confidence REAL NOT NULL,
             description TEXT,
-            timestamp TEXT NOT NULL
+            timestamp TEXT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
         )
     ''')
 
     conn.commit()
     conn.close()
 
-# Run on import (ensures DB exists)
+# Initialize database when module imports
 initialize_db()

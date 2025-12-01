@@ -28,6 +28,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GroupProjectSE\auth.py" />
     <Compile Include="GroupProjectSE\db.py" />
     <Compile Include="GroupProjectSE\ml\predict.py" />
     <Compile Include="GroupProjectSE\ml\train_model.py" />
@@ -59,10 +60,13 @@
     <Content Include="GroupProjectSE\templates\history_view.html" />
     <Content Include="GroupProjectSE\templates\index.html" />
     <Content Include="GroupProjectSE\templates\layout.html" />
+    <Content Include="GroupProjectSE\templates\login.html" />
     <Content Include="GroupProjectSE\templates\MainPage.html" />
     <Content Include="GroupProjectSE\templates\plant_analysis.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="GroupProjectSE\templates\profile.html" />
+    <Content Include="GroupProjectSE\templates\register.html" />
     <Content Include="GroupProjectSE\templates\report.html" />
     <Content Include="requirements.txt" />
     <Content Include="GroupProjectSE\static\content\bootstrap.css" />

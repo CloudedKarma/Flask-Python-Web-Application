@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Register</h1>
+
+<form method="POST">
+    <label>Username</label><br>
+    <input type="text" name="username"><br>
+
+    <label>Password</label><br>
+    <input type="password" name="password"><br>
+
+    <label>Role</label><br>
+    <select name="role">
+        <option value="student">Student</option>
+        <option value="instructor">Instructor</option>
+    </select><br><br>
+
+    <button class="btn">Register</button>
+</form>
+
+<p>Already have an account? <a href="/login">Login here</a></p>
+
+{% endblock %}

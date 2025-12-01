@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Analysis History</h1>
+
+<form method="get" style="margin-bottom:20px;">
+
+    <input type="text" name="search" placeholder="Search disease..."
+           value="{{ search }}" style="padding:5px;">
+
+    <label for="start">From:</label>
+    <input type="date" name="start" value="{{ start }}">
+
+    <label for="end">To:</label>
+    <input type="date" name="end" value="{{ end }}">
+
+    <select name="sort" style="padding:5px;">
+        <option value="newest" {% if sort=='newest' %}selected{% endif %}>Newest First</option>
+        <option value="oldest" {% if sort=='oldest' %}selected{% endif %}>Oldest First</option>
+        <option value="conf_high" {% if sort=='conf_high' %}selected{% endif %}>Confidence: High to Low</option>
+        <option value="conf_low" {% if sort=='conf_low' %}selected{% endif %}>Confidence: Low to High</option>
+    </select>
+
+    <button type="submit" class="btn">Filter</button>
+</form>
+
+<table border="1" cellpadding="10" style="width:100%;">
+    <tr>
+        <th>Image</th>
+        <th>Disease</th>
+        <th>Confidence</th>
+        <th>Description</th>
+        <th>Timestamp</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for row in rows %}
+    <tr>
+        <td><img src="{{ row.image_path }}" style="max-width:80px;"></td>
+        <td>{{ row.predicted_class }}</td>
+        <td>{{ row.confidence }}%</td>
+        <td style="max-width:250px;">{{ row.description }}</td>
+        <td>{{ row.timestamp }}</td>
+
+        <td>
+            <a href="/history/view/{{ row.id }}" class="btn">View</a>
+
+            <form action="/history/delete/{{ row.id }}" method="POST"
+                  style="display:inline;">
+                <button class="btn" style="background-color:red;">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

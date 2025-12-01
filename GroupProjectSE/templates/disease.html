@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>{{ disease }}</h1>
+
+<p><strong>Common name:</strong> {{ info.common_name }}</p>
+<p><strong>Affects:</strong> {{ info.plant }}</p>
+
+<hr>
+
+<h2>Symptoms</h2>
+<ul>
+    {% for s in info.symptoms %}
+    <li>{{ s }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Causes</h2>
+<ul>
+    {% for c in info.causes %}
+    <li>{{ c }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Treatment</h2>
+<ul>
+    {% for t in info.treatment %}
+    <li>{{ t }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Prevention</h2>
+<ul>
+    {% for p in info.prevention %}
+    <li>{{ p }}</li>
+    {% endfor %}
+</ul>
+
+{% if info.source %}
+<h3>More Information</h3>
+<p><a href="{{ info.source }}" target="_blank">Visit official source</a></p>
+{% endif %}
+
+{% endblock %}

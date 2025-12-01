@@ -1,14 +1,66 @@
 {
   "Tomato Early Blight": {
-    "description": "Early blight causes concentric brown spots on leaves. It spreads in humid conditions.",
-    "steps": [ "Remove infected leaves", "Apply fungicide", "Avoid overhead watering" ]
+    "common_name": "Early Blight",
+    "plant": "Tomato",
+    "symptoms": [
+      "Concentric brown leaf spots",
+      "Yellowing older leaves",
+      "Stem lesions"
+    ],
+    "causes": [
+      "Fungal infection (Alternaria solani)",
+      "Humid conditions",
+      "Overhead watering"
+    ],
+    "treatment": [
+      "Remove infected leaves",
+      "Apply copper-based fungicide",
+      "Improve air circulation",
+      "Avoid overhead watering"
+    ],
+    "prevention": [
+      "Plant resistant varieties",
+      "Mulch around the base",
+      "Rotate crops yearly"
+    ],
+    "source": "https://extension.umn.edu/diseases/early-blight"
   },
+
   "Tomato Late Blight": {
-    "description": "Late blight causes dark, water-soaked spots on leaves and stems.",
-    "steps": [ "Remove infected plants", "Improve ventilation", "Use resistant varieties" ]
+    "common_name": "Late Blight",
+    "plant": "Tomato",
+    "symptoms": [
+      "Dark water-soaked spots",
+      "White fungal growth in humid conditions",
+      "Rapid leaf decay"
+    ],
+    "causes": [
+      "Fungal infection (Phytophthora infestans)"
+    ],
+    "treatment": [
+      "Remove infected plants",
+      "Use appropriate fungicide",
+      "Keep foliage dry"
+    ],
+    "prevention": [
+      "Use certified disease-free seeds",
+      "Avoid overcrowding",
+      "Monitor humidity levels"
+    ],
+    "source": "https://portal.ct.gov/caes/plant-pest-handbook/pph-diseases/late-blight"
   },
+
   "Healthy": {
-    "description": "No disease detected.",
-    "steps": [ "Continue normal plant care" ]
+    "common_name": "Healthy Leaf",
+    "plant": "Any",
+    "symptoms": [],
+    "causes": [],
+    "treatment": [
+      "No action required"
+    ],
+    "prevention": [
+      "Maintain regular care"
+    ],
+    "source": "N/A"
   }
 }

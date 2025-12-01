@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Full Report</h1>
+
+<div style="border:1px solid #ccc; padding:20px; border-radius:6px;">
+
+    <h3>Disease: {{ row.predicted_class }}</h3>
+    <p><strong>Confidence:</strong> {{ row.confidence }}%</p>
+    <p><strong>Description:</strong> {{ row.description }}</p>
+    <p><strong>Date:</strong> {{ row.timestamp }}</p>
+
+    <h3>Image</h3>
+    <img src="{{ row.image_path }}" style="max-width:350px; border:1px solid #888; padding:5px;">
+</div>
+
+<a href="/history" class="btn" style="margin-top:20px;">Back to History</a>
+
+{% endblock %}

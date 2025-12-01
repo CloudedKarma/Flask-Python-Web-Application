@@ -4,7 +4,7 @@
 <h1>Plant Analysis Program</h1>
 <p>
     Upload a plant leaf image to classify the plants health and detect potential diseases.
-    This tool will analyze the image and provide a prediction, description, and treatment steps.
+    This tool analyzes the image and provides prediction, description, and treatment steps.
 </p>
 
 <hr style="margin: 20px 0;">
@@ -52,6 +52,7 @@
         <input type="hidden" name="result" value="{{ result.class }} ({{ result.confidence }}%) - {{ result.description }}">
         <button type="submit" class="btn">Generate Report</button>
     </form>
+    <a href="/disease/{{ result.class }}" class="btn">More Info</a>
 
 </div>
 

@@ -28,7 +28,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GroupProjectSE\db.py" />
     <Compile Include="GroupProjectSE\ml\predict.py" />
+    <Compile Include="GroupProjectSE\ml\train_model.py" />
     <Compile Include="runserver.py" />
     <Compile Include="GroupProjectSE\__init__.py" />
     <Compile Include="GroupProjectSE\views.py" />
@@ -37,6 +39,7 @@
     <Folder Include="GroupProjectSE\" />
     <Folder Include="GroupProjectSE\ml\" />
     <Folder Include="GroupProjectSE\ml\model\" />
+    <Folder Include="GroupProjectSE\database\" />
     <Folder Include="GroupProjectSE\static\" />
     <Folder Include="GroupProjectSE\static\content\" />
     <Folder Include="GroupProjectSE\static\fonts\" />
@@ -46,10 +49,14 @@
     <Folder Include="GroupProjectSE\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GroupProjectSE\database\plant_history.db" />
     <Content Include="GroupProjectSE\ml\disease_info.json" />
-    <Content Include="GroupProjectSE\ml\model\plant_cnn_model.h5" />
+    <Content Include="GroupProjectSE\ml\model\plant_cnn.h5" />
     <Content Include="GroupProjectSE\templates\about.html" />
     <Content Include="GroupProjectSE\templates\contact.html" />
+    <Content Include="GroupProjectSE\templates\disease.html" />
+    <Content Include="GroupProjectSE\templates\history.html" />
+    <Content Include="GroupProjectSE\templates\history_view.html" />
     <Content Include="GroupProjectSE\templates\index.html" />
     <Content Include="GroupProjectSE\templates\layout.html" />
     <Content Include="GroupProjectSE\templates\MainPage.html" />

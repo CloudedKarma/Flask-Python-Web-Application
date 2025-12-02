@@ -6,14 +6,17 @@ from datetime import datetime
 from flask import render_template, request, redirect, url_for, flash
 from GroupProjectSE import app
 import os
-
 from flask_login import login_user, logout_user, login_required, current_user
-
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from GroupProjectSE.auth import get_user_by_username, User
 from GroupProjectSE.db import get_db
 from GroupProjectSE.ml.predict import predict_disease, DISEASE_DATA
+import csv
+from flask import make_response
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import letter
+
 
 
 @app.route('/')
@@ -151,11 +154,10 @@ def analyze():
 
 
 # -------------------- REPORT GENERATION --------------------
-@app.route('/generate_report', methods=['POST'])
-@login_required
+@app.route('/generate_report', methods=['GET', 'POST'])
 def generate_report():
-    file_path = request.form.get('file_path')
-    result = request.form.get('result')
+    file_path = request.form.get('file_path') or request.args.get('file_path')
+    result = request.form.get('result') or request.args.get('result')
 
     return render_template(
         'report.html',
@@ -271,4 +273,105 @@ def disease_info(name):
         year=datetime.now().year,
         disease=name,
         info=info
+    )
+# -------------------- MODEL INFO --------------------
+@app.route('/model_info')
+def model_info():
+    import json
+    
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # folder of views.py
+    info_path = os.path.join(base_dir, "ml", "model_info.json")
+
+    with open(info_path, "r") as f:
+        data = json.load(f)
+
+    return render_template(
+        "model_info.html",
+        title="Model Information",
+        year=datetime.now().year,
+        data=data
+    )
+
+# -------------------- CSV DOWNLOAD INFO --------------------
+
+@app.route('/history/download/csv')
+@login_required
+def download_history_csv():
+    conn = get_db()
+    cur = conn.cursor()
+
+    # Instructor = all records; Student = only their own
+    if current_user.role == "student":
+        cur.execute("SELECT * FROM history WHERE user_id = ? ORDER BY id DESC",
+                    (current_user.id,))
+    else:
+        cur.execute("SELECT * FROM history ORDER BY id DESC")
+
+    rows = cur.fetchall()
+    conn.close()
+
+    # Create CSV in memory
+    response = make_response()
+    response.headers["Content-Disposition"] = "attachment; filename=history.csv"
+    response.headers["Content-Type"] = "text/csv"
+
+    writer = csv.writer(response)
+    writer.writerow(["ID", "Image", "Disease", "Confidence", "Description", "Timestamp"])
+
+    for row in rows:
+        writer.writerow([
+            row["id"],
+            row["image_path"],
+            row["predicted_class"],
+            row["confidence"],
+            row["description"],
+            row["timestamp"]
+        ])
+
+    return response
+
+# -------------------- DOWNLOAD PDF INFO --------------------
+
+@app.route('/history/download/pdf')
+@login_required
+def download_history_pdf():
+    conn = get_db()
+    cur = conn.cursor()
+
+    if current_user.role == "student":
+        cur.execute("SELECT * FROM history WHERE user_id = ? ORDER BY id DESC",
+                    (current_user.id,))
+    else:
+        cur.execute("SELECT * FROM history ORDER BY id DESC")
+
+    rows = cur.fetchall()
+    conn.close()
+
+    pdf_path = "history_report.pdf"
+    doc = SimpleDocTemplate(pdf_path, pagesize=letter)
+    styles = getSampleStyleSheet()
+    content = []
+
+    title = Paragraph("Plant Analysis History Report", styles["Title"])
+    content.append(title)
+    content.append(Spacer(1, 20))
+
+    for row in rows:
+        # Each entry formatted
+        text = (
+            f"<b>ID:</b> {row['id']}<br/>"
+            f"<b>Disease:</b> {row['predicted_class']}<br/>"
+            f"<b>Confidence:</b> {row['confidence']}%<br/>"
+            f"<b>Description:</b> {row['description']}<br/>"
+            f"<b>Date:</b> {row['timestamp']}<br/><br/>"
+        )
+        content.append(Paragraph(text, styles["Normal"]))
+        content.append(Spacer(1, 10))
+
+    doc.build(content)
+
+    return send_file(
+        pdf_path,
+        as_attachment=True,
+        download_name="Plant_History_Report.pdf"
     )

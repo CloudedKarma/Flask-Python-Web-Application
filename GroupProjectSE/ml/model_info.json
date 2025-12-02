@@ -1,0 +1,12 @@
+{
+  "model_name": "PlantDisease_CNN",
+  "model_version": "v1.0",
+  "last_trained": "Not trained yet",
+  "num_classes": 38,
+  "training_accuracy": "N/A",
+  "validation_accuracy": "N/A",
+  "loss_curve_image": "/static/images/loss_curve_placeholder.png",
+  "confusion_matrix_image": "/static/images/confusion_matrix_placeholder.png",
+  "training_time": "N/A",
+  "notes": "Model not yet trained. Metrics will update when training is completed."
+}

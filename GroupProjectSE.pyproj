@@ -30,6 +30,7 @@
   <ItemGroup>
     <Compile Include="GroupProjectSE\auth.py" />
     <Compile Include="GroupProjectSE\db.py" />
+    <Compile Include="GroupProjectSE\fix_db.py" />
     <Compile Include="GroupProjectSE\ml\predict.py" />
     <Compile Include="GroupProjectSE\ml\train_model.py" />
     <Compile Include="runserver.py" />
@@ -52,6 +53,7 @@
   <ItemGroup>
     <Content Include="GroupProjectSE\database\plant_history.db" />
     <Content Include="GroupProjectSE\ml\disease_info.json" />
+    <Content Include="GroupProjectSE\ml\model_info.json" />
     <Content Include="GroupProjectSE\ml\model\plant_cnn.h5" />
     <Content Include="GroupProjectSE\templates\about.html" />
     <Content Include="GroupProjectSE\templates\contact.html" />
@@ -62,6 +64,7 @@
     <Content Include="GroupProjectSE\templates\layout.html" />
     <Content Include="GroupProjectSE\templates\login.html" />
     <Content Include="GroupProjectSE\templates\MainPage.html" />
+    <Content Include="GroupProjectSE\templates\model_info.html" />
     <Content Include="GroupProjectSE\templates\plant_analysis.html">
       <SubType>Code</SubType>
     </Content>

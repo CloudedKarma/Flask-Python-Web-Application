@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Model Information & Analytics</h1>
+
+<div style="margin-top:20px; padding:15px; border:1px solid #ccc; border-radius:6px;">
+    <h2>{{ data.model_name }}</h2>
+
+    <p><strong>Version:</strong> {{ data.model_version }}</p>
+    <p><strong>Last Trained:</strong> {{ data.last_trained }}</p>
+    <p><strong>Number of Classes:</strong> {{ data.num_classes }}</p>
+    <p><strong>Training Accuracy:</strong> {{ data.training_accuracy }}</p>
+    <p><strong>Validation Accuracy:</strong> {{ data.validation_accuracy }}</p>
+    <p><strong>Training Time:</strong> {{ data.training_time }}</p>
+
+    <h3 style="margin-top:20px;">Training & Validation Graph</h3>
+    <img src="{{ data.loss_curve_image }}" style="max-width:500px; border:1px solid #999;">
+
+    <h3 style="margin-top:20px;">Confusion Matrix</h3>
+    <img src="{{ data.confusion_matrix_image }}" style="max-width:500px; border:1px solid #999;">
+
+    <h3 style="margin-top:20px;">Notes</h3>
+    <p>{{ data.notes }}</p>
+</div>
+
+{% endblock %}

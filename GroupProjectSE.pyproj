@@ -46,6 +46,7 @@
     <Folder Include="GroupProjectSE\static\content\" />
     <Folder Include="GroupProjectSE\static\fonts\" />
     <Folder Include="GroupProjectSE\static\images\" />
+    <Folder Include="GroupProjectSE\static\reports\" />
     <Folder Include="GroupProjectSE\static\uploads\" />
     <Folder Include="GroupProjectSE\static\scripts\" />
     <Folder Include="GroupProjectSE\templates\" />

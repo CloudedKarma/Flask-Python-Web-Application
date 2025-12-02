@@ -16,6 +16,8 @@ from flask import make_response
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import letter
+from flask import send_file, make_response
+
 
 
 
@@ -156,15 +158,23 @@ def analyze():
 # -------------------- REPORT GENERATION --------------------
 @app.route('/generate_report', methods=['GET', 'POST'])
 def generate_report():
+    print("\n===== GENERATE REPORT DEBUG =====")
+    print("Form received:", request.form)
+    print("Args received:", request.args)
+
     file_path = request.form.get('file_path') or request.args.get('file_path')
     result = request.form.get('result') or request.args.get('result')
 
+    print("file_path extracted:", file_path)
+    print("result extracted:", result)
+    print("=================================\n")
+
     return render_template(
-        'report.html',
-        title='Plant Analysis Report',
+        "report.html",
+        title="Plant Analysis Report",
         year=datetime.now().year,
         file_path=file_path,
-        result=result
+        result=result,
     )
 
 
@@ -300,7 +310,6 @@ def download_history_csv():
     conn = get_db()
     cur = conn.cursor()
 
-    # Instructor = all records; Student = only their own
     if current_user.role == "student":
         cur.execute("SELECT * FROM history WHERE user_id = ? ORDER BY id DESC",
                     (current_user.id,))
@@ -310,12 +319,14 @@ def download_history_csv():
     rows = cur.fetchall()
     conn.close()
 
-    # Create CSV in memory
+    # Create response
     response = make_response()
     response.headers["Content-Disposition"] = "attachment; filename=history.csv"
     response.headers["Content-Type"] = "text/csv"
 
-    writer = csv.writer(response)
+    # The FIX: Use writerow on response.stream
+    writer = csv.writer(response.stream)
+
     writer.writerow(["ID", "Image", "Disease", "Confidence", "Description", "Timestamp"])
 
     for row in rows:
@@ -330,11 +341,15 @@ def download_history_csv():
 
     return response
 
+
 # -------------------- DOWNLOAD PDF INFO --------------------
 
 @app.route('/history/download/pdf')
 @login_required
 def download_history_pdf():
+    def safe_text(value):
+        return str(value).encode("ascii", "ignore").decode()
+
     conn = get_db()
     cur = conn.cursor()
 
@@ -347,7 +362,10 @@ def download_history_pdf():
     rows = cur.fetchall()
     conn.close()
 
-    pdf_path = "history_report.pdf"
+    pdf_dir = os.path.join(app.root_path, "static", "reports")
+    os.makedirs(pdf_dir, exist_ok=True)
+    pdf_path = os.path.join(pdf_dir, "history_report.pdf")
+
     doc = SimpleDocTemplate(pdf_path, pagesize=letter)
     styles = getSampleStyleSheet()
     content = []
@@ -357,16 +375,29 @@ def download_history_pdf():
     content.append(Spacer(1, 20))
 
     for row in rows:
-        # Each entry formatted
         text = (
-            f"<b>ID:</b> {row['id']}<br/>"
-            f"<b>Disease:</b> {row['predicted_class']}<br/>"
-            f"<b>Confidence:</b> {row['confidence']}%<br/>"
-            f"<b>Description:</b> {row['description']}<br/>"
-            f"<b>Date:</b> {row['timestamp']}<br/><br/>"
+            f"<b>ID:</b> {safe_text(row['id'])}<br/>"
+            f"<b>Disease:</b> {safe_text(row['predicted_class'])}<br/>"
+            f"<b>Confidence:</b> {safe_text(row['confidence'])}%<br/>"
+            f"<b>Description:</b> {safe_text(row['description'])}<br/>"
+            f"<b>Date:</b> {safe_text(row['timestamp'])}<br/>"
         )
         content.append(Paragraph(text, styles["Normal"]))
         content.append(Spacer(1, 10))
+
+        if row["image_path"]:
+            img_path = os.path.join(app.root_path, row["image_path"].lstrip("/"))
+
+            if os.path.exists(img_path):
+                try:
+                    img = Image(img_path, width=200, height=200)
+                    content.append(img)
+                except:
+                    content.append(Paragraph("(Image could not be loaded)", styles["Normal"]))
+            else:
+                content.append(Paragraph("(Image not found on server)", styles["Normal"]))
+
+        content.append(Spacer(1, 30))
 
     doc.build(content)
 
@@ -374,4 +405,62 @@ def download_history_pdf():
         pdf_path,
         as_attachment=True,
         download_name="Plant_History_Report.pdf"
+    )
+
+# -------------------- DOWNLOAD INDVIDIAL REPORTS INFO --------------------
+
+@app.route('/report/pdf/<int:entry_id>')
+def download_individual_report(entry_id):
+
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM history WHERE id = ?", (entry_id,))
+    row = cur.fetchone()
+    conn.close()
+
+    if not row:
+        return "Report not found", 404
+
+    # Ensure reports folder exists
+    report_folder = os.path.join(app.root_path, "static", "reports")
+    os.makedirs(report_folder, exist_ok=True)
+
+    pdf_path = os.path.join(report_folder, f"report_{entry_id}.pdf")
+
+    # Start PDF build
+    doc = SimpleDocTemplate(pdf_path, pagesize=letter)
+    styles = getSampleStyleSheet()
+    content = []
+
+    # ---- Title ----
+    content.append(Paragraph(f"Plant Disease Report (ID: {entry_id})", styles["Title"]))
+    content.append(Spacer(1, 20))
+
+    # ---- Fix image path ----
+    image_web = row["image_path"]  # /static/uploads/file.jpg
+    image_abs = os.path.join(app.root_path, image_web.lstrip("/"))
+
+    if os.path.exists(image_abs):
+        try:
+            img = Image(image_abs, width=250, height=250)
+            content.append(img)
+            content.append(Spacer(1, 20))
+        except Exception as e:
+            print("PDF IMAGE ERROR:", e)
+
+    # ---- Text Section ----
+    text = (
+        f"<b>Disease:</b> {row['predicted_class']}<br/>"
+        f"<b>Confidence:</b> {row['confidence']}%<br/><br/>"
+        f"<b>Description:</b><br/>{row['description']}<br/><br/>"
+        f"<b>Date:</b> {row['timestamp']}"
+    )
+
+    content.append(Paragraph(text, styles["BodyText"]))
+    doc.build(content)
+
+    return send_file(
+        pdf_path,
+        as_attachment=True,
+        download_name=f"plant_report_{entry_id}.pdf"
     )

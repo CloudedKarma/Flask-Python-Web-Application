@@ -5,13 +5,28 @@
 
 <hr style="margin:20px 0;">
 
-<h2>Results Summary</h2>
-<p>{{ result }}</p>
-
 {% if file_path %}
-<h2>Uploaded Image</h2>
-<img src="{{ file_path }}" alt="Analyzed Image"
-     style="max-width:400px; border:1px solid #ccc; padding:10px;">
+<div style="margin-bottom:20px;">
+    <h2>Analyzed Image</h2>
+    <img src="{{ file_path }}"
+         alt="Analyzed Image"
+         style="max-width:400px; border:1px solid #ccc; padding:10px; border-radius:6px;">
+</div>
+{% endif %}
+
+<h2>Results Summary</h2>
+
+{% if result %}
+<div style="
+        border:1px solid #ddd;
+        padding:15px;
+        border-radius:6px;
+        background:#f9f9f9;
+        margin-bottom:20px;">
+    {{ result }}
+</div>
+{% else %}
+<p>No analysis data found.</p>
 {% endif %}
 
 <hr style="margin:20px 0;">

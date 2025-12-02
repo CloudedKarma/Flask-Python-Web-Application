@@ -3,8 +3,7 @@
 
 <h1>Plant Analysis Program</h1>
 <p>
-    Upload a plant leaf image to classify the plants health and detect potential diseases.
-    This tool analyzes the image and provides prediction, description, and treatment steps.
+    Upload a plant leaf image to classify the plant's health and detect potential diseases.
 </p>
 
 <hr style="margin: 20px 0;">
@@ -26,17 +25,17 @@
 
     <h3 style="margin-top: 0;">Prediction Results</h3>
 
-    <p><strong>Disease:</strong> {{ result.class }}</p>
-    <p><strong>Confidence:</strong> {{ result.confidence }}%</p>
+    <p><strong>Disease:</strong> {{ result['class'] }}</p>
+    <p><strong>Confidence:</strong> {{ result['confidence'] }}%</p>
 
     <p>
         <strong>Description:</strong><br>
-        {{ result.description }}
+        {{ result['description'] }}
     </p>
 
     <h4>Treatment Steps:</h4>
     <ul>
-        {% for step in result.steps %}
+        {% for step in result['steps'] %}
         <li>{{ step }}</li>
         {% endfor %}
     </ul>
@@ -47,12 +46,13 @@
          style="max-width: 350px; border: 1px solid #999; padding: 5px;">
     {% endif %}
 
+    <!-- FIXED HIDDEN FIELDS -->
     <form method="POST" action="/generate_report" style="margin-top:20px;">
         <input type="hidden" name="file_path" value="{{ file_url }}">
-        <input type="hidden" name="result" value="{{ result.class }} ({{ result.confidence }}%) - {{ result.description }}">
+        <input type="hidden" name="result"
+               value="Disease: {{ result['class'] }} | Confidence: {{ result['confidence'] }}% | {{ result['description'] }}">
         <button type="submit" class="btn">Generate Report</button>
     </form>
-    <a href="/disease/{{ result.class }}" class="btn">More Info</a>
 
 </div>
 

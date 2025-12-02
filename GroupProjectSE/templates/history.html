@@ -51,6 +51,8 @@
 
         <td>
             <a href="/history/view/{{ row.id }}" class="btn">View</a>
+            <a href="/report/pdf/{{ row.id }}" class="btn" style="background:#444; color:white;">PDF</a>
+
 
             <form action="/history/delete/{{ row.id }}" method="POST"
                   style="display:inline;">
